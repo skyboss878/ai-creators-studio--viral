@@ -4,152 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Creators Studio</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #0e0e0e;
-      color: white;
-    }
-
-    nav {
-      background: #111;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #ff3c3c;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-    }
-
-    .nav-links li a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .hero {
-      padding: 4rem 2rem;
-      text-align: center;
-      background: #1a1a1a;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      padding: 1rem 2rem;
-      margin: 0.5rem;
-      background: #ff3c3c;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .upload-section {
-      padding: 2rem;
-      background: #121212;
-      text-align: center;
-    }
-
-    input[type="text"], textarea {
-      width: 80%;
-      padding: 0.75rem;
-      margin-top: 1rem;
-      font-size: 1rem;
-    }
-
-    button {
-      padding: 0.75rem 1.5rem;
-      margin-top: 1rem;
-      font-size: 1rem;
-      background: #ff3c3c;
-      border: none;
-      color: white;
-      border-radius: 5px;
-    }
-
-    .result {
-      padding: 2rem;
-      background: #222;
-      margin-top: 2rem;
-      border-radius: 8px;
-    }
-
-    .result p {
-      font-size: 1.1rem;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <nav>
-    <a href="#" class="logo">🎬 AI Creators Studio</a>
-    <ul class="nav-links">
-      <li><a href="#generate">Generate</a></li>
-    </ul>
+    <div class="container">
+      <div class="nav-content">
+        <a href="#" class="logo">🎬 AI Creators Studio</a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#" onclick="showLogin()">Login</a></li>
+        </ul>
+        <a href="#" class="cta-button" onclick="showSignup()">Start Free Trial</a>
+      </div>
+    </div>
   </nav>
 
   <section class="hero">
-    <h1>Create Viral Content with AI</h1>
-    <p>Turn your ideas into viral videos, hashtags, and captions in seconds.</p>
-    <a href="#generate" class="hero-cta">Start Now</a>
-  </section>
-
-  <section class="upload-section" id="generate">
-    <h2>Describe Your Idea</h2>
-    <input type="text" id="ideaInput" placeholder="Describe your video idea..."/>
-    <br/>
-    <button onclick="generateContent()">Generate Viral Content</button>
-
-    <div class="result" id="result" style="display: none;">
-      <h3>Generated Results</h3>
-      <p><strong>Hashtags:</strong> <span id="hashtags"></span></p>
-      <p><strong>Description:</strong> <span id="description"></span></p>
-      <p><strong>Video Status:</strong> <span id="video"></span></p>
+    <div class="container">
+      <h1>Create Viral Content with AI</h1>
+      <p>Turn ideas into viral videos with trending music, hashtags & more.</p>
+      <a href="#" class="hero-cta primary-cta" onclick="showSignup()">Start 3-Day Free Trial</a>
+      <a href="#features" class="hero-cta secondary-cta">See Features</a>
     </div>
   </section>
 
-  <script>
-    async function generateContent() {
-      const idea = document.getElementById("ideaInput").value;
+  <section class="features" id="features">
+    <div class="container">
+      <h2>Key Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">🤖 <h3>AI Video Creation</h3><p>Upload a photo or describe an idea to generate viral video content.</p></div>
+        <div class="feature-card">🎵 <h3>Trending Music</h3><p>Royalty-free music library with viral soundtracks.</p></div>
+        <div class="feature-card">#️⃣ <h3>Hashtag Generator</h3><p>Get real-time, trending hashtags for your niche.</p></div>
+        <div class="feature-card">📝 <h3>Captions & Hooks</h3><p>AI-written engaging captions to maximize watch time.</p></div>
+      </div>
+    </div>
+  </section>
 
-      const response = await fetch('https://ai-creators-studio-viral.onrender.com/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ idea: idea })
-      });
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2>Pricing</h2>
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <h3>Free Trial</h3>
+          <div class="price">$0 / 3 days</div>
+          <ul>
+            <li>✅ 5 video generations</li>
+            <li>✅ Watermarked</li>
+            <li>✅ Basic music</li>
+          </ul>
+          <a href="#" class="cta-button" onclick="showSignup()">Try Free</a>
+        </div>
+        <div class="pricing-card featured">
+          <h3>Pro Creator</h3>
+          <div class="price">$18 / month</div>
+          <ul>
+            <li>✅ Unlimited generations</li>
+            <li>✅ No watermarks</li>
+            <li>✅ Premium music</li>
+            <li>✅ HD exports</li>
+          </ul>
+          <a href="#" class="cta-button" onclick="showPayment()">Go Pro</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      const data = await response.json();
-      document.getElementById("hashtags").innerText = data.hashtags;
-      document.getElementById("description").innerText = data.description;
-      document.getElementById("video").innerText = data.video;
+  <section class="generator">
+    <div class="container">
+      <h2>Create a Viral Video</h2>
+      <form id="generate-form">
+        <input type="text" id="prompt" placeholder="Describe your video idea..." required />
+        <button type="submit">Generate</button>
+      </form>
+      <div id="results"></div>
+    </div>
+  </section>
 
-      document.getElementById("result").style.display = "block";
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
+
+
