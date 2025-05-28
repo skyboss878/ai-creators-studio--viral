@@ -1,0 +1,19 @@
+# render.yaml
+services:
+  - type: web
+    name: ai-creators-studio-backend
+    env: python
+    repo: https://github.com/skyboss878/ai-creators-studio--viral
+    branch: main
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: JWT_SECRET_KEY
+        value: supersecretjwt123
+      - key: SECRET_KEY
+        value: flasksecretkey456
+      - key: DATABASE_URL
+        value: your_database_url_here
