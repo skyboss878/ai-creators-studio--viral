@@ -1,174 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>AI Creators Studio</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .form-box {
+      margin: 1rem auto;
+      max-width: 400px;
+      padding: 1rem;
+      background: #222;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    input, button {
+      width: 90%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      background: #00c896;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #message {
+      color: yellow;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <nav>
-    <div class="container">
-      <div class="nav-content">
-        <a href="#" class="logo">🎬 AI Creators Studio</a>
-        <ul class="nav-links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#" onclick="showLogin()">Login</a></li>
-        </ul>
-        <a href="#" class="cta-button" onclick="showSignup()">Start Free Trial</a>
-      </div>
-    </div>
-  </nav>
-<section id="subscribe" style="text-align: center; margin-top: 2rem;">
-  <h2>Subscribe to AI Creators Studio</h2>
-  <p>Start your viral video journey today!</p>
-  <div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
-</section>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+  <h1>🚀 AI Creators Studio</h1>
+  <p>Generate viral videos, schedule posts & monetize content with AI. Start for free, upgrade anytime!</p>
 
-<script>
-  paypal.Buttons({
-    style: {
-      shape: 'rect',
-      color: 'gold',
-      layout: 'vertical',
-      label: 'subscribe'
-    },
-    createSubscription: function(data, actions) {
-      return actions.subscription.create({
-        plan_id: 'P-8DP70117TD556851YNA33XXA'
-      });
-    },
-    onApprove: function(data, actions) {
-      alert('Subscription completed! ID: ' + data.subscriptionID);
+  <!-- Signup Form -->
+  <div class="form-box">
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+      <input type="text" name="name" placeholder="Name" required><br>
+      <input type="email" name="email" placeholder="Email" required><br>
+      <input type="password" name="password" placeholder="Password" required><br>
+      <button type="submit">Create Account</button>
+    </form>
+  </div>
 
-      fetch('https://your-backend.onrender.com/api/paypal/webhook', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          subscriptionID: data.subscriptionID
-        })
-      });
-    }
-  }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
-</script>
-  <section class="hero">
-    <div class="container">
-      <h1>Create Viral Content with AI</h1>
-      <p>Turn ideas into viral videos with trending music, hashtags & more.</p>
-      <a href="#" class="hero-cta primary-cta" onclick="showSignup()">Start 3-Day Free Trial</a>
-      <a href="#features" class="hero-cta secondary-cta">See Features</a>
-    </div>
-  </section>
-<!-- PayPal Subscription Button -->
-<div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
+  <!-- Login Form -->
+  <div class="form-box">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="email" name="email" placeholder="Email" required><br>
+      <input type="password" name="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <!-- PayPal Subscription -->
+  <div class="form-box">
+    <h2>Subscribe to Pro</h2>
+    <div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
+  </div>
+
+  <p id="message"></p>
+
+  <!-- PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+
+  <script>
+    let token = "";
+
+    // Signup
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = e.target.name.value;
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+
+      try {
+        const res = await fetch('https://ai-creators-studio-viral.onrender.com/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+        document.getElementById('message').textContent = data.message || data.error || "Signed up!";
+      } catch (err) {
+        document.getElementById('message').textContent = "Signup failed.";
+      }
+    });
+
+    // Login
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+
+      try {
+        const res = await fetch('https://ai-creators-studio-viral.onrender.com/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (data.access_token) {
+          token = data.access_token;
+          document.getElementById('message').textContent = "Login successful!";
+        } else {
+          document.getElementById('message').textContent = data.message || "Login failed.";
+        }
+      } catch (err) {
+        document.getElementById('message').textContent = "Login error.";
+      }
+    });
+
+    // PayPal Subscribe
+    paypal.Buttons({
       style: {
-          shape: 'rect',
-          color: 'gold',
-          layout: 'vertical',
-          label: 'subscribe'
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'subscribe'
       },
       createSubscription: function(data, actions) {
         return actions.subscription.create({
           plan_id: 'P-8DP70117TD556851YNA33XXA'
         });
       },
-      onApprove: function(data, actions) {
-        alert(data.subscriptionID); // Success message
-      }
-  }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
-</script>
-  <section class="features" id="features">
-    <div class="container">
-      <h2>Key Features</h2>
-      <div class="features-grid">
-        <div class="feature-card">🤖 <h3>AI Video Creation</h3><p>Upload a photo or describe an idea to generate viral video content.</p></div>
-        <div class="feature-card">🎵 <h3>Trending Music</h3><p>Royalty-free music library with viral soundtracks.</p></div>
-        <div class="feature-card">#️⃣ <h3>Hashtag Generator</h3><p>Get real-time, trending hashtags for your niche.</p></div>
-        <div class="feature-card">📝 <h3>Captions & Hooks</h3><p>AI-written engaging captions to maximize watch time.</p></div>
-      </div>
-    </div>
-  </section>
-<!-- PayPal Subscription Button -->
-<div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
-      style: {
-          shape: 'rect',
-          color: 'gold',
-          layout: 'vertical',
-          label: 'subscribe'
-      },
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          plan_id: 'P-8DP70117TD556851YNA33XXA' // Your PayPal plan ID
-        });
-      },
-      onApprove: function(data, actions) {
-        alert("Subscription Approved! ID: " + data.subscriptionID);
-        // Send subscription ID to your backend
-        fetch('https://ai-creators-studio-viral.onrender.com/api/paypal/webhook', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            subscriptionID: data.subscriptionID
-          })
-        });
-      }
-  }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
-</script>
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <h2>Pricing</h2>
-      <div class="pricing-cards">
-        <div class="pricing-card">
-          <h3>Free Trial</h3>
-          <div class="price">$0 / 3 days</div>
-          <ul>
-            <li>✅ 5 video generations</li>
-            <li>✅ Watermarked</li>
-            <li>✅ Basic music</li>
-          </ul>
-          <a href="#" class="cta-button" onclick="showSignup()">Try Free</a>
-        </div>
-        <div class="pricing-card featured">
-          <h3>Pro Creator</h3>
-          <div class="price">$18 / month</div>
-          <ul>
-            <li>✅ Unlimited generations</li>
-            <li>✅ No watermarks</li>
-            <li>✅ Premium music</li>
-            <li>✅ HD exports</li>
-          </ul>
-          <a href="#" class="cta-button" onclick="showPayment()">Go Pro</a>
-        </div>
-      </div>
-    </div>
-  </section>
+      onApprove: async function(data, actions) {
+        alert("Subscription successful: " + data.subscriptionID);
 
-  <section class="generator">
-    <div class="container">
-      <h2>Create a Viral Video</h2>
-      <form id="generate-form">
-        <input type="text" id="prompt" placeholder="Describe your video idea..." required />
-        <button type="submit">Generate</button>
-      </form>
-      <div id="results"></div>
-    </div>
-  </section>
-
-  <script src="script.js"></script>
+        // Send to backend to store the subscription with JWT
+        try {
+          const res = await fetch('https://ai-creators-studio-viral.onrender.com/api/subscription', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ subscriptionID: data.subscriptionID })
+          });
+          const responseData = await res.json();
+          document.getElementById('message').textContent = responseData.message || "Subscription saved!";
+        } catch (err) {
+          document.getElementById('message').textContent = "Subscription failed to save.";
+        }
+      }
+    }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
+  </script>
 </body>
 </html>
-
-
