@@ -20,7 +20,42 @@
       </div>
     </div>
   </nav>
+<section id="subscribe" style="text-align: center; margin-top: 2rem;">
+  <h2>Subscribe to AI Creators Studio</h2>
+  <p>Start your viral video journey today!</p>
+  <div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
+</section>
 
+<script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+
+<script>
+  paypal.Buttons({
+    style: {
+      shape: 'rect',
+      color: 'gold',
+      layout: 'vertical',
+      label: 'subscribe'
+    },
+    createSubscription: function(data, actions) {
+      return actions.subscription.create({
+        plan_id: 'P-8DP70117TD556851YNA33XXA'
+      });
+    },
+    onApprove: function(data, actions) {
+      alert('Subscription completed! ID: ' + data.subscriptionID);
+
+      fetch('https://your-backend.onrender.com/api/paypal/webhook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          subscriptionID: data.subscriptionID
+        })
+      });
+    }
+  }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
+</script>
   <section class="hero">
     <div class="container">
       <h1>Create Viral Content with AI</h1>
