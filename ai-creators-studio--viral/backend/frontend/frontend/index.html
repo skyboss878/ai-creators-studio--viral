@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Creators Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="landing-page">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Create Viral Content with AI</h1>
+      <p>Transform your ideas into viral videos, trending hashtags, and engaging descriptions in seconds. Join thousands of creators going viral with AI Creators Studio.</p>
+      <a href="#" class="hero-cta primary-cta" onclick="showSignup()">Start 3-Day Free Trial</a>
+      <a href="#features" class="hero-cta secondary-cta">See How It Works</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2>Everything You Need to Go Viral</h2>
+      <div class="features-grid">
+        <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Video Generation</h3><p>Upload a photo or describe your idea, and our AI creates up to 10 unique videos optimized for social media virality.</p></div>
+        <div class="feature-card"><div class="feature-icon">🎵</div><h3>Trending Music Library</h3><p>Access thousands of copyright-free trending tracks that are proven to boost engagement and views.</p></div>
+        <div class="feature-card"><div class="feature-icon">#️⃣</div><h3>Viral Hashtag Generator</h3><p>Get the most effective hashtags for your niche, updated in real-time based on trending topics.</p></div>
+        <div class="feature-card"><div class="feature-icon">📝</div><h3>Engaging Descriptions</h3><p>AI-powered captions and descriptions that hook viewers and drive engagement across all platforms.</p></div>
+        <div class="feature-card"><div class="feature-icon">⚡</div><h3>Instant Generation</h3><p>From upload to download in under 60 seconds. Create viral content faster than ever before.</p></div>
+        <div class="feature-card"><div class="feature-icon">📱</div><h3>Platform Optimized</h3><p>Videos optimized for TikTok, Instagram Reels, YouTube Shorts, and all major social platforms.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2>Choose Your Plan</h2>
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <h3>Free Trial</h3>
+          <div class="price">$0<span style="font-size: 1rem;">/3 days</span></div>
+          <ul class="pricing-features">
+            <li>✅ 5 video generations</li>
+            <li>✅ Basic hashtag suggestions</li>
+            <li>✅ Standard music library</li>
+            <li>⚠️ Watermarked videos</li>
+            <li>⚠️ Limited downloads</li>
+          </ul>
+          <a href="#" class="cta-button" onclick="showSignup()">Start Free Trial</a>
+        </div>
+        <div class="pricing-card featured">
+          <h3>Pro Creator</h3>
+          <div class="price">$18<span style="font-size: 1rem;">/month</span></div>
+          <ul class="pricing-features">
+            <li>✅ Unlimited video generations</li>
+            <li>✅ Advanced AI hashtags</li>
+            <li>✅ Premium music library</li>
+            <li>✅ No watermarks</li>
+            <li>✅ HD downloads</li>
+            <li>✅ Priority support</li>
+            <li>✅ Bulk generation</li>
+          </ul>
+          <a href="#" class="cta-button" onclick="showPayment()">Get Pro Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- App Interface -->
+<div id="app-interface" class="app-interface" style="display: none;">
+  <div class="app-header">
+    <div class="container">
+      <h2>🎬 AI Creators Studio</h2>
+      <p>Transform your ideas into viral content</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="upload-section">
+      <h3>Create Your Viral Content</h3>
+      <div class="upload-area" onclick="document.getElementById('file-input').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <h4>Upload Image or Video</h4>
+        <p>Drag and drop or click to select</p>
+        <input type="file" id="file-input" style="display: none;" accept="image/*,video/*" onchange="handleFileUpload(event)">
+      </div>
+
+      <div class="form-group"><label for="description">Content Description</label><textarea id="description" rows="4" placeholder="Describe your content idea or leave blank to generate from uploaded image..."></textarea></div>
+      <div class="form-group"><label for="style">Content Style</label><select id="style"><option value="viral">Viral & Trendy</option><option value="educational">Educational</option><option value="entertainment">Entertainment</option><option value="lifestyle">Lifestyle</option><option value="business">Business</option><option value="comedy">Comedy</option></select></div>
+      <div class="form-group"><label for="platform">Target Platform</label><select id="platform"><option value="all">All Platforms</option><option value="tiktok">TikTok</option><option value="instagram">Instagram Reels</option><option value="youtube">YouTube Shorts</option><option value="facebook">Facebook</option></select></div>
+      <div class="form-group"><label for="video-count">Number of Videos (1-10)</label><input type="number" id="video-count" min="1" max="10" value="3"></div>
+
+      <button class="generate-btn" id="generate-btn" onclick="generateContent()"><i class="fas fa-magic"></i> Generate Viral Content</button>
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+      <div class="spinner"></div>
+      <h3>Creating your viral content...</h3>
+      <p>This may take 30-60 seconds</p>
+    </div>
+
+    <div class="results-section" id="results" style="display: none;">
+      <h3>Your Viral Content is Ready! 🎉</h3>
+      <div class="video-grid" id="video-grid">
+        <!-- Results from backend will populate here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="auth-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div id="auth-content">
+      <!-- Login or Signup will show here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentUser = null;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+  });
+
+  function showLogin() {
+    document.getElementById('auth-content').innerHTML = `
+      <h2>Welcome Back</h2>
+      <form class="auth-form" onsubmit="handleLogin(event)">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+      </form>
+      <p style="text-align: center; margin-top: 1rem;">
+        Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+      </p>`;
+    document.getElementById('auth-modal').style.display = 'block';
+  }
+
+  function showSignup() {
+    document.getElementById('auth-content').innerHTML = `
+      <h2>Start Your Free Trial</h2>
+      <p>3 days free, then $18/month</p>
+      <form class="auth-form" onsubmit="handleSignup(event)">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Start Free Trial</button>
+      </form>
+      <p style="text-align: center; margin-top: 1rem;">
+        Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+      </p>`;
+    document.getElementById('auth-modal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('auth-modal').style.display = 'none';
+  }
+
+  function checkAuthStatus() {
+    const savedUser = localStorage.getItem('ai_creators_user');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      showApp();
+    }
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+
+    // Simulate login
+    setTimeout(() => {
+      currentUser = { email: email, name: "User", subscription: "trial" };
+      localStorage.setItem('ai_creators_user', JSON.stringify(currentUser));
+      closeModal();
+      showApp();
+    }, 1000);
+  }
+
+  function handleSignup(event) {
+    event.preventDefault();
+    const inputs = event.target.querySelectorAll('input');
+    const name = inputs[0].value;
+    const email = inputs[1].value;
+    const password = inputs[2].value;
+
+    // Simulate signup
+    setTimeout(() => {
+      currentUser = { email, name, subscription: "trial" };
+      localStorage.setItem('ai_creators_user', JSON.stringify(currentUser));
+      closeModal();
+      showApp();
+    }, 1000);
+  }
+
+  function showApp() {
+    document.getElementById('landing-page').style.display = 'none';
+    document.getElementById('app-interface').style.display = 'block';
+  }
+
+  function handleFileUpload(event) {
+    const file = event.target.files[0];
+    const uploadArea = document.querySelector('.upload-area');
+    uploadArea.innerHTML = `<i class="fas fa-check-circle" style="color: #28a745;"></i><h4>${file.name}</h4>`;
+  }
+
+  function generateContent() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
+
+    // Simulate backend call
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('video-grid').innerHTML = `
+        <div class="video-card">🎥 Sample Video 1</div>
+        <div class="video-card">🎥 Sample Video 2</div>
+        <div class="video-card">🎥 Sample Video 3</div>`;
+    }, 3000);
+  }
+</script>
+</body>
+</html>

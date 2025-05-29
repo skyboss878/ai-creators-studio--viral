@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Creators Studio</title>
+  <script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+    }
+    .btn {
+      background: gold;
+      color: #000;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .section {
+      margin: 2rem auto;
+      max-width: 500px;
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 12px;
+    }
+    input, button {
+      width: 90%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: none;
+    }
+    #output {
+      margin-top: 1rem;
+      background: #333;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Creators Studio</h1>
+  <p>Create viral videos from simple text prompts with AI.</p>
+
+  <div class="section">
+    <h2>Start Free Trial</h2>
+    <div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
+  </div>
+
+  <div class="section">
+    <h2>Signup</h2>
+    <input id="signup-email" placeholder="Email" /><br />
+    <input id="signup-password" type="password" placeholder="Password" /><br />
+    <button onclick="signup()">Signup</button>
+  </div>
+
+  <div class="section">
+    <h2>Login</h2>
+    <input id="login-email" placeholder="Email" /><br />
+    <input id="login-password" type="password" placeholder="Password" /><br />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="section">
+    <h2>Generate Viral Video Content</h2>
+    <input id="prompt" placeholder="Enter your text..." /><br />
+    <button onclick="generate()">Generate</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const backend = "https://ai-creators-studio-viral.onrender.com";
+    let token = "";
+
+    function signup() {
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      fetch(`${backend}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((data) => alert(data.message));
+    }
+
+    function login() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      fetch(`${backend}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          token = data.access_token;
+          alert("Login successful!");
+        });
+    }
+
+    function generate() {
+      const prompt = document.getElementById("prompt").value;
+
+      fetch(`${backend}/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ prompt }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("output").innerText = data.result || "No response";
+        });
+    }
+
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'subscribe'
+      },
+      createSubscription: function (data, actions) {
+        return actions.subscription.create({
+          plan_id: 'P-8DP70117TD556851YNA33XXA'
+        });
+      },
+      onApprove: function (data, actions) {
+        alert('Subscription started! ID: ' + data.subscriptionID);
+      }
+    }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
+  </script>
+</body>
+</html>
+
