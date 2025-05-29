@@ -29,7 +29,27 @@
       <a href="#features" class="hero-cta secondary-cta">See Features</a>
     </div>
   </section>
-
+<!-- PayPal Subscription Button -->
+<div id="paypal-button-container-P-8DP70117TD556851YNA33XXA"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AQgoEsXMSG92HCurAfIz9VB6FklPn_EzCkXn0S04kzzinjRZiGrLctBv7PXGL3Gxt2DKmdp1h6a_1lDZ&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          plan_id: 'P-8DP70117TD556851YNA33XXA'
+        });
+      },
+      onApprove: function(data, actions) {
+        alert(data.subscriptionID); // Success message
+      }
+  }).render('#paypal-button-container-P-8DP70117TD556851YNA33XXA');
+</script>
   <section class="features" id="features">
     <div class="container">
       <h2>Key Features</h2>
